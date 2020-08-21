@@ -21,4 +21,4 @@ Resources:
 
 Outputs:
   APIHostZoneNameServers:
-    Value: !GetAtt APIHostedZone.NameServers
+    Value: !Join [",", !GetAtt APIHostedZone.NameServers]
