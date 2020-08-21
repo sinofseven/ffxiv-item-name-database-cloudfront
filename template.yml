@@ -43,7 +43,7 @@ Resources:
             ConnectionAttempts: 3
             ConnectionTimeout: 10
             DomainName: !Ref ApiDomainName
-            OriginPath: !Ref ApiOriginPath
+            OriginPath: !Sub /${ApiOriginPath}
             CustomOriginConfig:
               HTTPSPort: 443
               OriginKeepaliveTimeout: 5
