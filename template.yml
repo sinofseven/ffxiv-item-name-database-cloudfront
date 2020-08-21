@@ -6,9 +6,16 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Default: /ffxiv-item-name-database/api-host-name
 
+  HostedZoneId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /ffxiv-item-name-database/hosted-zone-id
+
 Resources:
   Certificate:
     Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName: !Ref HostName
+      DomainValidationOptions:
+        - DomainName: !Ref HostName
+          HostedZoneId: !Ref HostedZoneId
       ValidationMethod: DNS
