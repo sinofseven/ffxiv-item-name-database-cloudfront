@@ -110,5 +110,5 @@ Resources:
       AliasTarget:
         DNSName: !GetAtt DatabaseDistribution.DomainName
         HostedZoneId: Z2FDTNDATAQYW2
-        Type: A
-        Name: !Ref HostName
+      Type: A
+      Name: !Ref HostName
