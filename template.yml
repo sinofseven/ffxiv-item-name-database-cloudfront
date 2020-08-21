@@ -77,6 +77,28 @@ Resources:
                 - string
                 - language
                 - ids
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          TargetOriginId: OriginApi
+          PathPattern: "*"
+          DefaultTTL: 86400
+          MaxTTL: 31536000
+          MinTTL: 1
+          ViewerProtocolPolicy: https-only
+          ForwardedValues:
+            QueryString: true
+            QueryStringCacheKeys:
+              - string
+              - language
+              - ids
         IPV6Enabled: true
         Logging:
           Bucket: !Ref CloudFrontLogBucket
