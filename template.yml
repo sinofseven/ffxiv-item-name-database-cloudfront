@@ -32,7 +32,7 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
-        Alias:
+        Aliases:
           - !Ref HostName
         Origins:
           - Id: OriginApi
