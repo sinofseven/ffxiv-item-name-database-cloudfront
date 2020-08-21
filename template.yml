@@ -100,5 +100,5 @@ Resources:
               - ids
         IPV6Enabled: true
         Logging:
-          Bucket: !Ref CloudFrontLogBucket
+          Bucket: !GetAtt CloudFrontLogBucket.DomainName
           IncludeCookies: false
