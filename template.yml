@@ -3,22 +3,13 @@ Description: ffxiv-item-name-database-prepare
 
 Parameters:
   HostName:
-    Type: String
-    Default: ffxiv-itndb.luciferous.xyz
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /ffxiv-item-name-database/api-host-name
 
 Resources:
-  APIHostedZone:
-    Type: AWS::Route53::HostedZone
-    Properties:
-      Name: !Ref HostName
-
   Certificate:
     Type: AWS::CertificateManager::Certificate
     DependsOn: APIHostedZone
     Properties:
       DomainName: !Ref HostName
       ValidationMethod: DNS
-
-Outputs:
-  APIHostZoneNameServers:
-    Value: !Join [",", !GetAtt APIHostedZone.NameServers]
