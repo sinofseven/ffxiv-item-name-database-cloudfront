@@ -9,7 +9,6 @@ Parameters:
 Resources:
   Certificate:
     Type: AWS::CertificateManager::Certificate
-    DependsOn: APIHostedZone
     Properties:
       DomainName: !Ref HostName
       ValidationMethod: DNS
