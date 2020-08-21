@@ -32,6 +32,7 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Enabled: true
         Aliases:
           - !Ref HostName
         Origins:
@@ -45,7 +46,8 @@ Resources:
               OriginKeepaliveTimeout: 5
               OriginProtocolPolicy: https-only
               OriginReadTimeout: 30
-              OriginSSLProtocols: TLSv1
+              OriginSSLProtocols:
+                - TLSv1
         ViewerCertificate:
           AcmCertificateArn: !Ref Certificate
         CacheBehaviors:
