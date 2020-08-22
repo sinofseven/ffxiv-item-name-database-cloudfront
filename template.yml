@@ -98,6 +98,7 @@ Resources:
               - language
               - ids
         IPV6Enabled: true
+        HttpVersion: http2
         Logging:
           Bucket: !GetAtt CloudFrontLogBucket.DomainName
           IncludeCookies: false
@@ -111,3 +112,41 @@ Resources:
         HostedZoneId: Z2FDTNDATAQYW2
       Type: A
       Name: !Ref HostName
+
+  QueueForCloudTrailLambdaUpdateAlias:
+    Type: AWS::SQS::Queue
+    Properties:
+      DelaySeconds: 0
+      VisibilityTimeout: 30
+
+  RuleCloudTrailLambdaUpdateAlias:
+    Type: AWS::Events::Rule
+    Properties:
+      EventPattern:
+        source:
+          - aws.lambda
+        detail-type:
+          - AWS API Call via CloudTrail
+        detail:
+          eventSource: lambda.amazonaws.com
+          eventName: UpdateAlias20150331
+      State: ENABLED
+      Targets:
+        - Id: EnQueue
+          Arn: !GetAtt QueueForCloudTrailLambdaUpdateAlias.Arn
+
+  QueuePolicyForCloudTrailLambdaUpdateAlias:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref QueueForCloudTrailLambdaUpdateAlias
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Resouece: !GetAtt QueueForCloudTrailLambdaUpdateAlias.Arn
+            Action: sqs:SendMessage
+            Principal:
+              Service: events.amazonaws.com
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !GetAtt RuleCloudTrailLambdaUpdateAlias.Arn
