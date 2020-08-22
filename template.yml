@@ -113,6 +113,16 @@ Resources:
       Type: A
       Name: !Ref HostName
 
+  CloudFrontV6RecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      AliasTarget:
+        DNSName: !GetAtt DatabaseDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+      Type: AAAA
+      Name: !Ref HostName
+
   QueueForCloudTrailLambdaUpdateAlias:
     Type: AWS::SQS::Queue
     Properties:
@@ -128,8 +138,10 @@ Resources:
         detail-type:
           - AWS API Call via CloudTrail
         detail:
-          eventSource: lambda.amazonaws.com
-          eventName: UpdateAlias20150331
+          eventSource:
+            - lambda.amazonaws.com
+          eventName:
+            - UpdateAlias20150331
       State: ENABLED
       Targets:
         - Id: EnQueue
