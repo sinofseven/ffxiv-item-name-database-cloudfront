@@ -14,10 +14,6 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Default: /ffxiv-item-name-database/api/api-domain-name
 
-  ApiOriginPath:
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: /ffxiv-item-name-database/api/api-origin-path
-
 Resources:
   Certificate:
     Type: AWS::CertificateManager::Certificate
