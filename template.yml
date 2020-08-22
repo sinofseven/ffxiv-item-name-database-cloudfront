@@ -61,7 +61,7 @@ Resources:
               - OPTIONS
             Compress: true
             TargetOriginId: OriginApi
-            PathPattern: !Sub /${ApiOriginPath}/*
+            PathPattern: /api/*
             DefaultTTL: 86400
             MaxTTL: 31536000
             MinTTL: 1
