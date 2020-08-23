@@ -138,6 +138,9 @@ Resources:
       Runtime: provided
       Policies:
         - arn:aws:iam::aws:policy/CloudFrontFullAccess
+      Environment:
+        Variables:
+          DISTRIBUTION_ID: !Ref DatabaseDistribution
       Events:
         Invalidation:
           Type: EventBridgeRule
