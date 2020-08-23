@@ -11,7 +11,6 @@ jobs:
           name: poetry in-project true
           command: |
             set -x
-
             poetry config virtualenvs.in-project true
       - checkout
       - setup_remote_docker
@@ -22,24 +21,23 @@ jobs:
           name: install dependencies
           command: |
             set -x
-
             poetry install
       - save_cache:
           paths:
             - .venv
           key: ffxiv-item-name-database-resources-poetry-{{ checksum "pyproject.toml" }}-{{ checksum "poetry.lock" }}
       - run:
-          name: deploy
+          name: build
           command: |
             set -x
-
             make build
       - run:
           name: deploy
           command: |
             set -x
-
             make deploy
+      - store_artifacts:
+          path: dist/
 
 workflows:
   version: 2
