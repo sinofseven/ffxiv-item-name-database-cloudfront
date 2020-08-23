@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ffxiv-item-name-database-prepare
+Transform: AWS::Serverless-2016-10-31
 
 Parameters:
   HostName:
@@ -13,6 +14,16 @@ Parameters:
   ApiDomainName:
     Type: AWS::SSM::Parameter::Value<String>
     Default: /ffxiv-item-name-database/api/api-domain-name
+
+  SearchFunctionName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /ffxiv-item-name-database/api/search-function-name
+
+Globals:
+  Function:
+    AutoPublishAlias: cloudfront
+    Timeout: 30
+    MemorySize: 256
 
 Resources:
   Certificate:
@@ -119,3 +130,28 @@ Resources:
       Type: AAAA
       Name: !Ref HostName
 
+  AutoInvalidationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/auto_invalidation.zip
+      Handler: lambda_handler
+      Runtime: provided
+      Policies:
+        - arn:aws:iam::aws:policy/CloudFrontFullAccess
+      Events:
+        Invalidation:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source:
+                - aws.lambda
+              detail-type:
+                - AWS API Call via CloudTrail
+              detail:
+                eventSource:
+                  - lambda.amazonaws.com
+                eventName:
+                  - UpdateAlias20150331
+                requestParameters:
+                  functionName:
+                    - !Ref SearchFunctionName

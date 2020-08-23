@@ -1,0 +1,20 @@
+[package]
+name = "ffxiv-item-name-database-cloudfront"
+version = "0.1.0"
+authors = ["sinofseven <em.s.00001@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "auto_invalidation"
+path = "src/bin/auto_invalidation.rs"
+
+[dependencies]
+lambda = { git = "https://github.com/awslabs/aws-lambda-rust-runtime/", rev = "a9de2fcb24030a00e402348aba3c368b717feb6d"}
+serde = {version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "0.2", features = ["macros"] }
+rusoto_core = "0.45.0"
+rusoto_cloudfront = "0.45.0"
+uuid = { version = "0.8.1", features = ["v4"] }
